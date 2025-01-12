@@ -5,6 +5,7 @@ import ToggleIconButton from '../ToggleIconButton';
 import { router } from 'expo-router';
 import { ThemeContext } from '../../../theme/theme';
 import useAuthStore from '../../../stores/authStore/authStore';
+import { breakpoints, useWindowWidth } from '../../../hooks/useWindowWidth';
 
 /**
  * Icons to be rendered inside appbar on both web and mobile
@@ -13,9 +14,14 @@ import useAuthStore from '../../../stores/authStore/authStore';
 const IconButtonGroup = () => {
   //Initialize theme toggle
   const { toggleTheme } = useContext(ThemeContext);
-
+  const windowWidth = useWindowWidth();
   return (
-    <View style={styles.appbar}>
+    <View
+      style={{
+        ...styles.buttonGroup,
+        width: windowWidth > breakpoints.small ? 150 : 'auto',
+        justifyContent: 'flex-end',
+      }}>
       <View style={styles.iconContainer}>
         <ToggleIconButton iconName="sun" alternateIconName="moon" onPress={toggleTheme} />
       </View>
@@ -25,12 +31,10 @@ const IconButtonGroup = () => {
 export default IconButtonGroup;
 
 const styles = StyleSheet.create({
-  appbar: {
+  buttonGroup: {
+    width: 150,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    height: 60,
-    paddingHorizontal: 15,
   },
   iconContainer: {
     flexDirection: 'row',

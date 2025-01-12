@@ -2,13 +2,11 @@ import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import TextLink from './TextLink';
 import { ThemeContext } from '../../theme/theme';
-import { breakpoints, useWindowWidth } from '../../hooks/useWindowWidth';
 import { useRouter } from 'expo-router';
 import brand from '../../brand/brandConfig';
 
 const Footer = () => {
   const theme = useContext(ThemeContext); // Access theme context
-  const windowWidth = useWindowWidth(); // Get window width from custom hook
   const router = useRouter();
   return (
     <View
@@ -17,12 +15,10 @@ const Footer = () => {
         {
           backgroundColor: theme.values.appbarColor,
           borderColor: theme.values.borderColor,
+          borderTopWidth: 1,
         },
       ]}>
-      <View
-        style={
-          windowWidth > breakpoints.small ? styles.linkContainerWeb : styles.linkContainerMobile
-        }>
+      <View style={styles.linkContainer}>
         <TextLink
           onPress={() => router.push('/tabs/home')}
           text="Home"
@@ -48,21 +44,18 @@ const Footer = () => {
 
 const styles = StyleSheet.create({
   footerContainer: {
-    padding: '3%',
+    paddingHorizontal: '3%',
+    paddingVertical: 40,
     alignItems: 'flex-start',
-    gap: 20,
-    borderTopWidth: 1,
+    gap: 10,
     width: '100%',
   },
   // Flex direction is column for mobile, row for larger screens
-  linkContainerMobile: {
+  linkContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '100%',
     gap: 10,
-  },
-  linkContainerWeb: {
-    gap: 20,
   },
   link: {
     fontSize: 14,

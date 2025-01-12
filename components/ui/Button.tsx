@@ -32,10 +32,7 @@ const Button = ({ title, secondary, loading, icon, onPress }: ButtonProps) => {
       />
     </View>
   ) : (
-    <Pressable
-      onPress={onPress}
-      style={secondary ? styles.secondary : styles.primary}
-    >
+    <Pressable onPress={onPress} style={secondary ? styles.secondary : styles.primary}>
       <View style={styles.contentContainer}>
         <StyledText fontSize={'md'} color="white">
           {title}
@@ -65,6 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: brand.borderRadius,
     backgroundColor: brand.colors.primary,
     flex: 1,
+    maxHeight: 50,
   },
   secondary: {
     alignItems: 'center',

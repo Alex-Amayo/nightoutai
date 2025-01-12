@@ -1,6 +1,6 @@
 import { useQueries, UseQueryResult } from '@tanstack/react-query';
 import { fetchNearbyPlaces } from '../api/queries/fetchNearbyPlaces';
-import { PlaceProps } from '../app/EatOutTypes';
+import { Place } from '../types/PlacesTypes';
 import { getDistance } from 'geolib';
 
 /**
@@ -21,7 +21,7 @@ export const useFetchMultipleNearbyPlaces = (
   type: string,
   categories: string[],
 ): {
-  data: Record<string, PlaceProps[]>;
+  data: Record<string, Place[]>;
   isLoading: boolean;
   error?: Error | null;
 } => {
@@ -39,7 +39,7 @@ export const useFetchMultipleNearbyPlaces = (
   // Create an object where keys are categories and values are the fetched places
   const categoriesWithPlaces = categories.reduce(
     (acc, category, index) => {
-      const result = queryResults[index] as UseQueryResult<PlaceProps[]>;
+      const result = queryResults[index] as UseQueryResult<Place[]>;
       if (result && result.data) {
         // Safeguard: Only calculate distance if lat/lng are available
         const sortedPlaces = result.data
@@ -59,7 +59,7 @@ export const useFetchMultipleNearbyPlaces = (
       }
       return acc;
     },
-    {} as Record<string, PlaceProps[]>,
+    {} as Record<string, Place[]>,
   );
 
   // Determine loading state (if any query is loading)

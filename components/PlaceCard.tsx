@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Image, Pressable, StyleSheet } from 'react-native';
-import { PlaceCardProps } from '../app/EatOutTypes';
+import { Place } from '../types/PlacesTypes';
 import { StyledText } from './ui/StyledText';
 import { getDistance } from 'geolib';
 import brand from '../brand/brandConfig';
@@ -9,37 +9,47 @@ import { useRouter } from 'expo-router';
 import { useWindowWidth, breakpoints } from '../hooks/useWindowWidth';
 import usePriceSymbol from '../hooks/usePriceSymbol';
 import { useLocationStore } from '../stores/useLocationStore';
+import { useFetchPhotosByPlace } from '../hooks/fetchPhotosByPlace';
 
-const getPhotoUrl = (photoReference: string) => {
-  return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${process.env.GOOGLE_PLACES_API_KEY}&callback=`;
-};
+function PlaceCard(place: Place) {
+  const { data: photos, isLoading } = useFetchPhotosByPlace(place.google_place_id);
 
-function PlaceCard({ place }: PlaceCardProps) {
-  const imageUrl = place.photos?.length
-    ? getPhotoUrl(place.photos[0].photo_reference)
-    : 'https://th.bing.com/th/id/OIP.sWCvltMZF_s3mjA5sL-RdgHaE8?rs=1&pid=ImgDetMain';
-
+  const fallbackImage =
+    'https://th.bing.com/th/id/OIP.sWCvltMZF_s3mjA5sL-RdgHaE8?rs=1&pid=ImgDetMain';
+  //Use the second photo if available, otherwise use the first photo, otherwise use the fallback image (Second Photo usually better)
   const { location } = useLocationStore();
-  const distance = location ? getDistance(location, place.geometry.location) : 0; //Returns distance in meters
+  const imageUrl = photos?.[1]?.url || photos?.[0]?.url || fallbackImage;
+  const distance = location ? getDistance(location, place.location) : 0; // Returns distance in meters
   const milesAway: number = distance * 0.000621371;
 
   // Initialize theme
   const theme = useContext(ThemeContext);
 
-  //Initialize router
+  // Initialize router
   const router = useRouter();
-
-  const goToPlace = (place: string) => {
-    // Navigate to home/places/[place]
-    router.push(`/tabs/${place}`);
+  const goToPlace = (place: Place) => {
+    // Navigate to home/places/[place] with id and place.id
+    router.push(`/tabs/${place.name}?id=${place.id}`);
   };
-  const priceSymbol = usePriceSymbol(place.price_level)
-  const windowWidth  = useWindowWidth();
+
+  const priceSymbol = usePriceSymbol(place.price_level);
+  const windowWidth = useWindowWidth();
+
+  if (isLoading) {
+    return <StyledText>Loading...</StyledText>; // Show loading state
+  }
+
   return (
     <Pressable
-      style={windowWidth > breakpoints.small ? styles.placeContainerWeb : styles.placeContainerMobile}
-      onPress={() => goToPlace(place.place_id)}>
-      <Image source={{ uri: imageUrl }} style={[styles.image, {height: windowWidth > breakpoints.small ? 150 : 150}]} resizeMode={'cover'} />
+      style={
+        windowWidth > breakpoints.small ? styles.placeContainerWeb : styles.placeContainerMobile
+      }
+      onPress={() => goToPlace(place)}>
+      <Image
+        source={{ uri: imageUrl }}
+        style={[styles.image, { height: windowWidth > breakpoints.small ? 150 : 150 }]}
+        resizeMode={'cover'}
+      />
       <View style={styles.infoContainer}>
         <StyledText fontSize="md" numberOfLines={1} align="left">
           {place.name}

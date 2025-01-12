@@ -35,12 +35,12 @@ export const lightTheme: ThemeValuesType = {
 //Defining dark theme
 export const darkTheme: ThemeValuesType = {
   color: '#e4e6eb', // Text color
-  backgroundColor: '#18191a', // Background color of the entire app
+  backgroundColor: '#181818', // Background color of the entire app
   cardBackgroundColor: '#242526', // Background color of cards
   highlightColor: brand.colors.secondary, //Primary color of the brand derived from brandConfig
-  appbarColor: '#242526', // App bar color
-  borderColor: '#242526', // Border color
-  shadowColor: '#000000', // Shadow color
+  appbarColor: '#000', // App bar color
+  borderColor: '#000000', // Border color
+  shadowColor: '#18191a', // Shadow color
   inactiveIconColor: '#b0b3b8', // Affects icons displayed in navigation bar
   dividerColor: '#3e4042', // Divider color
   iconButtonBackgroundColor: '#3a3b3c', // Background color of icon buttons

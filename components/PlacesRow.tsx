@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { CategoryRowProps, PlaceProps } from '../app/EatOutTypes';
+import { CategoryRowProps } from '../types/PlacesTypes';
 import PlaceCard from './PlaceCard';
 import { StyledText } from './ui/StyledText';
 import HorizontalScrollView from './HorizontalScrollView';
@@ -21,15 +21,16 @@ function PlacesRow({ category, places, loading, error }: CategoryRowProps) {
             // @ts-expect-error key extractor for skeleton
             keyExtractor={(_, index) => `skeleton-${index}`}
             renderItem={() => <SkeletonPlaceCard />}
-
           />
         ) : error ? (
           <StyledText>{'error loading ' + { category }}</StyledText>
         ) : (
           <HorizontalScrollView
             data={places}
-            keyExtractor={(item) => item.place_id}
-            renderItem={({ item }) => <PlaceCard place={item} />}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => {
+              return <PlaceCard {...item} />;
+            }}
           />
         )}
       </View>

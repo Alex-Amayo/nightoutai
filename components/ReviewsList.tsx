@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { ReviewProps } from '../app/EatOutTypes';
+import { ReviewProps } from '../types/PlacesTypes';
 import Review from '../components/Review';
 import { StyledText } from './ui/StyledText';
 import { breakpoints, useWindowWidth } from '../hooks/useWindowWidth';

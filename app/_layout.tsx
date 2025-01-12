@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { Slot } from 'expo-router';
 import { ThemeProvider } from '../theme/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

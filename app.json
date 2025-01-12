@@ -1,5 +1,6 @@
 {
   "expo": {
+    "newArchEnabled": true,
     "name": "Eat Out Food Finder",
     "slug": "eat-out",
     "version": "1.0.0",

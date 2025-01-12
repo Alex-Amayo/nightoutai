@@ -1,119 +1,68 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, View, Alert } from 'react-native';
-import * as Location from 'expo-location'; // Import Expo Location
+import React, { useContext } from 'react';
+import { ScrollView, StyleSheet, View, Platform } from 'react-native';
 import PlacesRow from '../../../components/PlacesRow';
-import { useFetchMultipleNearbyPlaces } from '../../../hooks/useFetchMultipleNearbyPlaces';
 import { ThemeContext } from '../../../theme/theme';
 import { StyledText } from '../../../components/ui/StyledText';
-import DropDownSelect from '../../../components/ui/DropDownSelect';
 import { breakpoints, useWindowWidth } from '../../../hooks/useWindowWidth';
 import Footer from '../../../components/ui/Footer';
-import { PlaceProps } from '../../EatOutTypes';
-import { useLocationStore } from '../../../stores/useLocationStore'; // Import the Zustand store
+import { useFetchTableData } from '../../../hooks/fetchTableData';
+import { getDistance } from 'geolib';
+import Hero from '../../../components/Hero';
+import { Place } from '../../../types/PlacesTypes';
 
 const HomePage = () => {
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  const radius = 5000;
-  const type = 'restaurant';
-
-  // Define dynamic categories for fetching data
-  const categories = {
-    couisines: ['mexican', 'italian', 'chinese', 'american', 'korean-bbq', 'sushi'],
-    price: ['budget-friendly', 'fine-dining', 'fast-food'],
-  };
-
-  // Sorting options are generated dynamically based on the categories object
-  const sortByOptions = Object.keys(categories).map((key) => ({
-    label: key.charAt(0).toUpperCase() + key.slice(1), // Capitalize first letter
-    value: key,
-  }));
-
-  // Sorting state
-  const [sortBy, setSortBy] = useState<string>(sortByOptions[0].value); // Initialize to the first category dynamically
-
-  // Fetch the current location from Zustand store
-  const { location, setLocation } = useLocationStore();
-
-  // Fetching data based on the current sortBy value
-  const selectedCategories = categories[sortBy];
-
-  const { data: restaurants, isLoading, error } = useFetchMultipleNearbyPlaces(
-    location?.lat || 36.1699, // Default to Las Vegas coordinates if location is not yet available
-    location?.lng || -115.1398,
-    radius,
-    type,
-    selectedCategories,
-  );
-
-  // Initialize theme
+  const { data, error, isLoading } = useFetchTableData<Place>('nightclubs');
   const theme = useContext(ThemeContext);
   const windowWidth = useWindowWidth();
 
-  // Handle the sort by selection
-  const handleSortBy = (option: string) => {
-    setSortBy(option);
-  };
+  // Central point for Las Vegas Strip
+  const lasVegasStripCenter = { latitude: 36.1147, longitude: -115.1728 };
+  const radius = 2000; // 3km radius
 
-  // Request permission and get location
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation({
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
-      });
-    })();
-  }, [setLocation]);
-
-  if (errorMsg) {
-    Alert.alert('Location Error', errorMsg);
-  }
+  // Separate places into "On the Strip" and "Off the Strip"
+  const onTheStrip = data?.filter((place) => {
+    const { lat, lng } = place.location; // Adjust based on your data structure
+    return (
+      lat && lng && getDistance({ latitude: lat, longitude: lng }, lasVegasStripCenter) <= radius
+    );
+  });
+  const offTheStrip = data?.filter((place) => !onTheStrip?.includes(place));
   return (
     <ScrollView style={[styles.screen, { backgroundColor: theme.values.backgroundColor }]}>
+      <Hero />
       {/** Section - Title, description and Sorting Selection **/}
       <View style={styles.sectionHeader}>
         {/** Section Title and description**/}
         <View style={styles.sectionHeaderTextContainer}>
-          <StyledText fontSize={windowWidth > breakpoints.small ? 50 : 25} bold uppercase>
-            Find Restaurants Near You
+          <StyledText fontSize={windowWidth > breakpoints.small ? 50 : 25} bold>
+            Find Nightclubs in Las Vegas
           </StyledText>
-          <StyledText fontSize={'lg'}>Eat out uses your location to find restaurants near you!</StyledText>
-        </View>
-
-        {/** Dropdown Selector For Sorting Selection **/}
-        <View style={[styles.dropDownContainer, { width: windowWidth > breakpoints.small ? '50%' : '100%' }]}>
-          <StyledText fontSize={'sm'} uppercase bold>
-            {'Sort by'}
+          <StyledText fontSize={'lg'}>
+            Eat out uses your location to find restaurants near you!
           </StyledText>
-          <DropDownSelect
-            options={sortByOptions}
-            onSelect={handleSortBy}
-            initialValue={sortByOptions[0].label}
-          />
         </View>
       </View>
 
-      {/** Display rows for each category **/}
+      {/** Display rows for "On the Strip" **/}
       <View style={styles.sectionContentContainer}>
-        {selectedCategories.map((category) => (
-          <PlacesRow
-            key={category}
-            category={category}
-            places={restaurants[category] || []}
-            loading={isLoading}
-            error={error}
-          />
-        ))}
+        <PlacesRow
+          category={'On the Strip'}
+          places={onTheStrip}
+          loading={isLoading}
+          error={error}
+        />
       </View>
 
-      <Footer />
+      {/** Display rows for "Off the Strip" **/}
+      <View style={styles.sectionContentContainer}>
+        <PlacesRow
+          category={'Off the Strip'}
+          places={offTheStrip}
+          loading={isLoading}
+          error={error}
+        />
+      </View>
+      {Platform.OS === 'web' && <Footer />}
     </ScrollView>
   );
 };
@@ -121,24 +70,18 @@ const HomePage = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    paddingVertical: 20,
   },
   sectionHeader: {
     flex: 1,
-    paddingVertical: 10,
     paddingHorizontal: '3%',
-    gap: 20,
+    marginVertical: 20,
   },
   sectionHeaderTextContainer: {
-    gap: 10,
-  },
-  dropDownContainer: {
-    gap: 10,
-    paddingBottom: 20,
+    gap: 5,
   },
   sectionContentContainer: {
+    paddingTop: 0,
     zIndex: -1,
-    paddingBottom: 20,
   },
 });
 

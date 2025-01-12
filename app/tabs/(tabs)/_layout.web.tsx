@@ -27,7 +27,11 @@ export default function TabLayout() {
   // Initialize theme
   const theme = useContext(ThemeContext);
   return (
-    <View style={{ flex: 1, backgroundColor: theme.values.backgroundColor }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: theme.values.backgroundColor,
+      }}>
       <MaterialTopTabs
         tabBar={(props) => <AppbarLayoutWeb {...props} />}
         tabBarPosition="top"

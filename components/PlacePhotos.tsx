@@ -3,15 +3,39 @@ import { Image, StyleSheet, View } from 'react-native';
 import HorizontalScrollView from './HorizontalScrollView';
 import brand from '../brand/brandConfig';
 import { StyledText } from './ui/StyledText';
+import { useFetchPhotosByPlace } from '../hooks/fetchPhotosByPlace';
 
 interface PlacePhotosProps {
-  photos?: { photo_reference: string }[];
-  googleApiKey: string;
+  placeId: string;
 }
 
-const PlacePhotos = ({ photos, googleApiKey }: PlacePhotosProps) => {
+const PlacePhotos = ({ placeId }: PlacePhotosProps) => {
+  const { data: photos, isLoading, error } = useFetchPhotosByPlace(placeId);
+
+  if (isLoading) {
+    return (
+      <View style={styles.header}>
+        <StyledText fontSize="md">Loading photos...</StyledText>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.header}>
+        <StyledText fontSize="md" color="red">
+          Error loading photos
+        </StyledText>
+      </View>
+    );
+  }
+
   if (!photos || photos.length === 0) {
-    return null;
+    return (
+      <View style={styles.header}>
+        <StyledText fontSize="md">No photos available</StyledText>
+      </View>
+    );
   }
 
   return (
@@ -23,11 +47,10 @@ const PlacePhotos = ({ photos, googleApiKey }: PlacePhotosProps) => {
       </View>
       <HorizontalScrollView
         data={photos}
-        keyExtractor={(item) => item.photo_reference}
-        renderItem={({ item }) => {
-          const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.photo_reference}&key=${googleApiKey}`;
-          return <Image source={{ uri: photoUrl }} style={styles.photo} resizeMode="cover" />;
-        }}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <Image source={{ uri: item.url }} style={styles.photo} resizeMode="cover" />
+        )}
       />
     </View>
   );
@@ -43,7 +66,7 @@ const styles = StyleSheet.create({
   },
   photo: {
     width: 300,
-    height: 300,
+    height: 200,
     marginRight: 10,
     borderRadius: brand.borderRadius,
   },

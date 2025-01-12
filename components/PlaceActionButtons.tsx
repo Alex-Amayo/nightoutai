@@ -38,11 +38,15 @@ const PlaceActionButtons: React.FC<PlaceActionButtonsProps> = ({
             name="arrow-back"
             size={20}
             color={theme.values.color}
-            style={{ borderRadius: 100, backgroundColor: theme.values.iconButtonBackgroundColor, padding: 10 }}
+            style={{
+              borderRadius: 100,
+              backgroundColor: theme.values.iconButtonBackgroundColor,
+              padding: 10,
+            }}
           />
           <View style={styles.actionButtonTextContainer}>
             <StyledText bold numberOfLines={1}>
-              See other restaurants
+              See other places
             </StyledText>
           </View>
         </Pressable>
@@ -109,7 +113,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10
+    justifyContent: 'center',
+    padding: 10,
   },
 });
 

@@ -1,16 +1,27 @@
 import React, { useContext, useState } from 'react';
-import { StyleSheet, View, ScrollView, KeyboardAvoidingView, Platform, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  Image,
+  NativeSyntheticEvent,
+  TextInputKeyPressEventData,
+} from 'react-native';
 import StyledTextInput from '../../../components/ui/StyledTextInput'; // Using the custom StyledTextInput component
 import { ThemeContext } from '../../../theme/theme';
 import Message from '../../../components/Message';
 import Footer from '../../../components/ui/Footer';
+import { breakpoints, useWindowWidth } from '../../../hooks/useWindowWidth';
 
 const ChatPage = () => {
   const theme = useContext(ThemeContext);
   const [messages, setMessages] = useState<{ text: string; isSent: boolean }[]>([]);
   const [currentMessage, setCurrentMessage] = useState('');
-
-  const handleSendMessage = () => {
+  const windowWidth = useWindowWidth();
+  const sendMessage = () => {
     if (currentMessage.trim()) {
       // Add the new message as a sent message
       setMessages([...messages, { text: currentMessage, isSent: true }]);
@@ -25,6 +36,11 @@ const ChatPage = () => {
       }, 1000);
     }
   };
+  const handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+    if (e.nativeEvent.key === 'Enter') {
+      sendMessage();
+    }
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: theme.values.backgroundColor }]}>
@@ -33,32 +49,51 @@ const ChatPage = () => {
         style={styles.chatContainer}
         contentContainerStyle={[
           { flexGrow: 1, justifyContent: messages.length > 0 ? 'flex-end' : 'center' },
-        ]}
-      >
+        ]}>
         {messages.length > 0 ? (
           messages.map((message, index) => (
             <Message key={index} text={message.text} isSent={message.isSent} />
           ))
         ) : (
-          <Text style={[styles.noMessages, { color: theme.values.color }]}>No messages yet</Text>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+              source={require('../../../assets/Jeff.webp')}
+              style={{
+                width: windowWidth > breakpoints.small ? 200 : 100,
+                height: windowWidth > breakpoints.small ? 200 : 100,
+                borderRadius: 125, // 100% borderRadius is not supported in React Native
+                marginVertical: 10,
+              }}
+            />
+            <Text style={[styles.noMessages, { color: theme.values.color }]}>
+              Chat with Jeff – Your AI Nightlife Guide
+            </Text>
+          </View>
         )}
       </ScrollView>
 
       {/** Text Input and Send Button wrapped in KeyboardAvoidingView **/}
       <KeyboardAvoidingView
-        keyboardVerticalOffset={110}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <View style={[styles.inputContainer, { backgroundColor: theme.values.backgroundColor, borderColor: theme.values.borderColor }]}>
+        keyboardVerticalOffset={125}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <View
+          style={[
+            styles.inputContainer,
+            {
+              backgroundColor: theme.values.backgroundColor,
+              borderColor: theme.values.borderColor,
+            },
+          ]}>
           <StyledTextInput
             value={currentMessage}
             onChangeText={setCurrentMessage}
             placeholder="Type your message..."
-            onPressSend={handleSendMessage} // This uses the custom StyledTextInput with the IconButton
+            onKeyPress={handleKeyPress}
+            onPressSend={sendMessage} // This uses the custom StyledTextInput with the IconButton
           />
         </View>
       </KeyboardAvoidingView>
-      <Footer />
+      {Platform.OS === 'web' && <Footer />}
     </View>
   );
 };
@@ -78,6 +113,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
     fontSize: 16,
+    fontWeight: 500,
   },
   inputContainer: {
     flexDirection: 'row',

@@ -4,7 +4,7 @@ import Arrow from './Arrow';
 import { useWindowWidth, breakpoints } from '../hooks/useWindowWidth'; // Import the Arrow component
 
 interface HorizontalScrollViewProps<T> {
-  data: T[];
+  data: T[] | undefined;
   renderItem: ({ item }: { item: T }) => React.ReactElement;
   keyExtractor: (item: T) => string;
 }
@@ -17,9 +17,10 @@ function HorizontalScrollView<T>({ data, renderItem, keyExtractor }: HorizontalS
   // Scroll list by 5 items at a time
   const scrollList = (direction: 'left' | 'right') => {
     if (flatListRef.current) {
-      const newOffset = direction === 'left'
-        ? Math.max(0, scrollOffset - 310 * 5) // Move left by 5 items
-        : scrollOffset + 310 * 5; // Move right by 5 items
+      const newOffset =
+        direction === 'left'
+          ? Math.max(0, scrollOffset - 310 * 5) // Move left by 5 items
+          : scrollOffset + 310 * 5; // Move right by 5 items
       flatListRef.current.scrollToOffset({
         offset: newOffset,
         animated: true,
@@ -43,7 +44,9 @@ function HorizontalScrollView<T>({ data, renderItem, keyExtractor }: HorizontalS
 
   return (
     <View style={styles.container}>
-      {windowWidth > breakpoints.medium ? <Arrow direction="left" onPress={() => scrollList('left')} hidden={hideLeftArrow} /> : null}
+      {windowWidth > breakpoints.medium ? (
+        <Arrow direction="left" onPress={() => scrollList('left')} hidden={hideLeftArrow} />
+      ) : null}
       <FlatList
         ref={flatListRef}
         data={data}
@@ -57,7 +60,9 @@ function HorizontalScrollView<T>({ data, renderItem, keyExtractor }: HorizontalS
         // Apply paddingLeft dynamically if windowWidth < breakpoints.large
         style={[styles.list, windowWidth < breakpoints.medium ? { paddingLeft: '3%' } : null]}
       />
-      {windowWidth > breakpoints.medium ? <Arrow direction="right" onPress={() => scrollList('right')} hidden={hideRightArrow} />: null}
+      {windowWidth > breakpoints.medium ? (
+        <Arrow direction="right" onPress={() => scrollList('right')} hidden={hideRightArrow} />
+      ) : null}
     </View>
   );
 }

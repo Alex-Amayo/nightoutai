@@ -5,6 +5,7 @@ import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 import { StyledText } from './ui/StyledText';
 import usePriceSymbol from '../hooks/usePriceSymbol';
 import { breakpoints, useWindowWidth } from '../hooks/useWindowWidth';
+import brand from '../brand/brandConfig';
 
 interface HeaderImageGradientProps {
   name: string;
@@ -27,13 +28,13 @@ export default function HeaderImageGradient({
     <View style={styles.tagContainer}>
       <StyledText color={'#ccc'} fontSize={windowWidth > breakpoints.small ? 'lg' : 'md'}>
         {distance ? distance.toFixed(2) + ' Miles away |' : null}
-        {priceLevel ? ' Price Level: ' + priceSymbol : null}
+        {priceLevel && priceLevel !== 'N/A' ? ` Price Level: ${priceSymbol}` : null}
       </StyledText>
     </View>
   );
 
   const renderMobileLayout = () => (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, height: 200 }}>
       <View style={styles.imageContainer}>
         {/* Background image */}
         <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
@@ -59,7 +60,17 @@ export default function HeaderImageGradient({
   );
 
   const renderWebLayout = () => (
-    <View style={[styles.container, { height: 300 }]}>
+    <View
+      style={[
+        styles.container,
+        {
+          height: 300,
+          marginHorizontal: '3%',
+          marginTop: 20,
+          backgroundColor: 'red',
+          borderRadius: brand.borderRadius,
+        },
+      ]}>
       {/* Background image with gradient overlay */}
       <ImageBackground source={{ uri: imageUrl }} style={styles.imageBackground} resizeMode="cover">
         <Svg height="100%" width="100%" style={StyleSheet.absoluteFill}>
@@ -104,7 +115,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     position: 'relative',
     width: '100%',
-    height: 200,
   },
   image: {
     width: '100%',

@@ -10,15 +10,15 @@ interface Brand {
 }
 
 const brand: Brand = {
-  name: 'Eat Out Food Finder',
+  name: 'Night Out AI',
   colors: {
-    primary: '#ff3131',
-    secondary: '#ff3131',
+    primary: '#cc3366',
+    secondary: '#cc3366',
     appbarColor: '#ffffff',
     backgroundColor: '#ffffff',
   },
-  borderRadius: 10,
-  shadows: true,
+  borderRadius: 5,
+  shadows: false,
   fontSizes: {
     small: 12,
     medium: 16,

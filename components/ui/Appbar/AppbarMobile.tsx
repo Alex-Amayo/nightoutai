@@ -22,8 +22,6 @@ const Appbar = ({ title, logoUri, tabs }: AppbarProps) => {
       style={{
         ...styles.appbar,
         backgroundColor: theme.values.appbarColor,
-        borderBottomWidth: 1,
-        borderColor: theme.values.borderColor,
       }}>
       <AppbarBranding title={title} logoUri={logoUri} />
       {tabs ? tabs : null}

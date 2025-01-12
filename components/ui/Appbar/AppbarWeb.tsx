@@ -44,14 +44,14 @@ const AppbarWeb = ({ title, logoUri, tabs }: AppbarProps) => {
       style={{
         //Configure background with theme background (**Different from appbar background, color of the space for shadows)
         backgroundColor: theme.values.backgroundColor,
+        borderBottomWidth: 1,
+        borderColor: theme.values.borderColor,
       }}>
       <View
         style={{
           ...styles.webContainer,
           //Configure appbar with theme appbar color
           backgroundColor: theme.values.appbarColor,
-          borderBottomWidth: 1,
-          borderColor: theme.values.borderColor
         }}>
         <View
           style={{
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     height: 80,
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
   },
   appbarWebSmall: {
     flexDirection: 'row',
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: 80,
     width: '100%',
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
   },
   iconContainer: {
     flexDirection: 'row',

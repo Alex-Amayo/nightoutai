@@ -18,7 +18,7 @@ type ThemeProviderProps = {
 };
 //Initialize ThemeProvider with a toggle function
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [values, setTheme] = useState<ThemeValuesType>(lightTheme);
+  const [values, setTheme] = useState<ThemeValuesType>(darkTheme);
   const toggleTheme = () => {
     setTheme(values === lightTheme ? darkTheme : lightTheme);
   };

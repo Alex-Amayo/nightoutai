@@ -7,7 +7,7 @@ export default function HomePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace('/tabs');
-    }, 3000); // 3 seconds
+    }, 1000); // 1 seconds
     // Clear timer when component unmounts
     return () => clearTimeout(timer);
   }, []);

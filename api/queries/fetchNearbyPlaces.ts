@@ -1,4 +1,4 @@
-import { PlaceProps } from '../../app/EatOutTypes';
+import { Place } from '../../types/PlacesTypes';
 
 /**
  * Fetches nearby places based on the provided latitude, longitude, radius, type, and keyword.
@@ -12,7 +12,7 @@ import { PlaceProps } from '../../app/EatOutTypes';
  * @param {string} params.type - The type of places to search for (e.g., 'restaurant', 'cafe').
  * @param {string} params.keyword - A specific keyword or category to filter results (e.g., 'mexican', 'italian').
  *
- * @returns {Promise<PlaceProps[]>} - A promise that resolves to an array of PlaceProps representing the nearby places.
+ * @returns {Promise<Place[]>} - A promise that resolves to an array of PlaceProps representing the nearby places.
  *
  * @throws {Error} - Throws an error if the request fails or the server returns a non-OK response.
  *
@@ -38,7 +38,7 @@ export const fetchNearbyPlaces = async ({
   radius: number;
   type: string;
   keyword: string;
-}): Promise<PlaceProps[]> => {
+}): Promise<Place[]> => {
   console.log('Google Places API Call');
   try {
     const response = await fetch(

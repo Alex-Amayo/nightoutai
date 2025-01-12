@@ -1,15 +1,15 @@
 import { create } from 'zustand';
-import { PlaceProps } from '../app/EatOutTypes';
+import { Place } from '../types/PlacesTypes';
 
 interface PlacesStore {
-  nationalities: Record<string, PlaceProps[]>; // Key: nationality, value: array of places
-  foodType: Record<string, PlaceProps[]>; // Key: foodType, value: array of places
-  priceLevel: Record<string, PlaceProps[]>; // Key: price level, value: array of places
+  nationalities: Record<string, Place[]>; // Key: nationality, value: array of places
+  foodType: Record<string, Place[]>; // Key: foodType, value: array of places
+  priceLevel: Record<string, Place[]>; // Key: price level, value: array of places
   isLoading: boolean; // Track loading state
   error: string | null; // Track any errors
-  setNationalities: (nationalities: Record<string, PlaceProps[]>) => void; // Action to directly set nationalities
-  setFoodType: (foodType: Record<string, PlaceProps[]>) => void; // Action to directly set foodType
-  setPriceLevel: (priceLevel: Record<string, PlaceProps[]>) => void; // Action to directly set priceLevel
+  setNationalities: (nationalities: Record<string, Place[]>) => void; // Action to directly set nationalities
+  setFoodType: (foodType: Record<string, Place[]>) => void; // Action to directly set foodType
+  setPriceLevel: (priceLevel: Record<string, Place[]>) => void; // Action to directly set priceLevel
   setLoading: (isLoading: boolean) => void; // Action to set loading state
   setError: (error: string | null) => void; // Action to set error
 }
