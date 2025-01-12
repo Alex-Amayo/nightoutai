@@ -29,18 +29,15 @@ const HomePage = () => {
   const offTheStrip = data?.filter((place) => !onTheStrip?.includes(place));
   return (
     <ScrollView style={[styles.screen, { backgroundColor: theme.values.backgroundColor }]}>
+      {/** Hero Section **/}
       <Hero />
+
       {/** Section - Title, description and Sorting Selection **/}
       <View style={styles.sectionHeader}>
         {/** Section Title and description**/}
-        <View style={styles.sectionHeaderTextContainer}>
-          <StyledText fontSize={windowWidth > breakpoints.small ? 50 : 25} bold>
-            Find Nightclubs in Las Vegas
-          </StyledText>
-          <StyledText fontSize={'lg'}>
-            Eat out uses your location to find restaurants near you!
-          </StyledText>
-        </View>
+        <StyledText fontSize={windowWidth > breakpoints.small ? 50 : 25} bold>
+          Find Nightclubs in Las Vegas
+        </StyledText>
       </View>
 
       {/** Display rows for "On the Strip" **/}
@@ -74,7 +71,7 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flex: 1,
     paddingHorizontal: '3%',
-    marginVertical: 20,
+    marginVertical: 40,
   },
   sectionHeaderTextContainer: {
     gap: 5,
