@@ -26,8 +26,8 @@ const brand: Brand = {
     xlarge: 24,
   },
   logo: {
-    light: 'https://utfs.io/f/YPschnd1m5QkLkMtWdZNXt7Hux80yzqbspNAiFl93fdRhkmK',
-    dark: 'https://utfs.io/f/YPschnd1m5QkLkMtWdZNXt7Hux80yzqbspNAiFl93fdRhkmK',
+    light: 'https://xyyfo01l4d.ufs.sh/f/YPschnd1m5QkKdKrp2HXaZhTLebdW4vrFcfN9tVHp8loqYnw',
+    dark: 'https://xyyfo01l4d.ufs.sh/f/YPschnd1m5QkKdKrp2HXaZhTLebdW4vrFcfN9tVHp8loqYnw',
   },
 };
 

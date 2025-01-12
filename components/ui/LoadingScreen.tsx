@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { ThemeContext } from '../../theme/theme';
 
@@ -13,9 +13,9 @@ const LoadingScreen = () => {
   const theme = useContext(ThemeContext);
 
   return (
-    <View style={{ ...styles.container, backgroundColor: theme.values.backgroundColor }}>
+    <View style={{ ...styles.screen, backgroundColor: theme.values.backgroundColor }}>
       <LottieView
-        source={require('../../assets/loading.json')}
+        source={require('../../assets/cheers.json')}
         autoPlay
         loop
         style={styles.lottieView}
@@ -25,14 +25,14 @@ const LoadingScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   lottieView: {
-    width: '50%',
-    height: '50%',
+    width: 200,
+    height: 400,
   },
 });
 

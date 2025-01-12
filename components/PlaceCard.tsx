@@ -17,10 +17,7 @@ function PlaceCard(place: Place) {
   const fallbackImage =
     'https://th.bing.com/th/id/OIP.sWCvltMZF_s3mjA5sL-RdgHaE8?rs=1&pid=ImgDetMain';
   //Use the second photo if available, otherwise use the first photo, otherwise use the fallback image (Second Photo usually better)
-  const { location } = useLocationStore();
   const imageUrl = photos?.[1]?.url || photos?.[0]?.url || fallbackImage;
-  const distance = location ? getDistance(location, place.location) : 0; // Returns distance in meters
-  const milesAway: number = distance * 0.000621371;
 
   // Initialize theme
   const theme = useContext(ThemeContext);
@@ -53,9 +50,6 @@ function PlaceCard(place: Place) {
       <View style={styles.infoContainer}>
         <StyledText fontSize="md" numberOfLines={1} align="left">
           {place.name}
-        </StyledText>
-        <StyledText fontSize="sm" color={theme.values.color} numberOfLines={1} align="left">
-          {milesAway.toFixed(2)} miles away
         </StyledText>
         <StyledText fontSize="sm" color={theme.values.color} numberOfLines={1} align="left">
           Price: {priceSymbol}
