@@ -10,6 +10,7 @@ import { useWindowWidth, breakpoints } from '../hooks/useWindowWidth';
 import usePriceSymbol from '../hooks/usePriceSymbol';
 import { useLocationStore } from '../stores/useLocationStore';
 import { useFetchPhotosByPlace } from '../hooks/fetchPhotosByPlace';
+import SkeletonPlaceCard from './SkeletonPlaceCard';
 
 function PlaceCard(place: Place) {
   const { data: photos, isLoading } = useFetchPhotosByPlace(place.google_place_id);
@@ -33,7 +34,7 @@ function PlaceCard(place: Place) {
   const windowWidth = useWindowWidth();
 
   if (isLoading) {
-    return <StyledText>Loading...</StyledText>; // Show loading state
+    return <SkeletonPlaceCard />; // Show loading state
   }
 
   return (

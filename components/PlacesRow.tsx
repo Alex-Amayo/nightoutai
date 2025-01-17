@@ -22,8 +22,6 @@ function PlacesRow({ category, places, loading, error }: CategoryRowProps) {
             keyExtractor={(_, index) => `skeleton-${index}`}
             renderItem={() => <SkeletonPlaceCard />}
           />
-        ) : error ? (
-          <StyledText>{'error loading ' + { category }}</StyledText>
         ) : (
           <HorizontalScrollView
             data={places}

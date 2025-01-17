@@ -48,7 +48,7 @@ const ChatPage = () => {
       <ScrollView
         style={styles.chatContainer}
         contentContainerStyle={[
-          { flexGrow: 1, justifyContent: messages.length > 0 ? 'flex-end' : 'center' },
+          { flexGrow: 1, justifyContent: messages.length > 0 ? 'flex-start' : 'center' },
         ]}>
         {messages.length > 0 ? (
           messages.map((message, index) => (

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import HorizontalScrollView from './HorizontalScrollView';
 import brand from '../brand/brandConfig';
 import { StyledText } from './ui/StyledText';
 import { useFetchPhotosByPlace } from '../hooks/fetchPhotosByPlace';
+import { ThemeContext } from '../theme/theme';
 
 interface PlacePhotosProps {
   placeId: string;
@@ -11,22 +12,22 @@ interface PlacePhotosProps {
 
 const PlacePhotos = ({ placeId }: PlacePhotosProps) => {
   const { data: photos, isLoading, error } = useFetchPhotosByPlace(placeId);
+  const theme = useContext(ThemeContext);
 
   if (isLoading) {
     return (
-      <View style={styles.header}>
-        <StyledText fontSize="md">Loading photos...</StyledText>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={styles.header}>
-        <StyledText fontSize="md" color="red">
-          Error loading photos
-        </StyledText>
-      </View>
+      <HorizontalScrollView
+        data={Array(5).fill({ id: 'loading', url: '' })}
+        keyExtractor={(item) => item.id}
+        renderItem={() => (
+          <View
+            style={[
+              styles.skeletonImage,
+              { backgroundColor: theme.values.isDark ? '#333333' : '#e0e0e0' },
+            ]}
+          />
+        )}
+      />
     );
   }
 
@@ -63,6 +64,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: '3%',
     paddingVertical: 20,
+  },
+  skeletonImage: {
+    width: '100%',
+    height: 150, // matches the smaller height from PlaceCard for mobile
+    borderRadius: brand.borderRadius,
   },
   photo: {
     width: 300,

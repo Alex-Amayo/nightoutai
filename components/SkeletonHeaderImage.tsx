@@ -1,20 +1,12 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ThemeContext } from '../theme/theme';
-import brand from '../brand/brandConfig';
-import { useWindowWidth, breakpoints } from '../hooks/useWindowWidth';
 
-function SkeletonPlaceCard() {
+function SkeletonHeaderImageMobile() {
   const theme = useContext(ThemeContext);
-  const windowWidth = useWindowWidth();
 
   return (
-    <View
-      style={
-        windowWidth > breakpoints.small
-          ? styles.skeletonContainerWeb
-          : styles.skeletonContainerMobile
-      }>
+    <View style={styles.container}>
       <View
         style={[
           styles.skeletonImage,
@@ -40,11 +32,37 @@ function SkeletonPlaceCard() {
             },
           ]}
         />
+      </View>
+    </View>
+  );
+}
+
+function SkeletonHeaderImageWeb() {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <View style={styles.container}>
+      <View
+        style={[
+          styles.skeletonImage,
+          { backgroundColor: theme.values.isDark ? '#333333' : '#e0e0e0' },
+        ]}
+      />
+      <View style={styles.infoContainer}>
         <View
           style={[
             styles.skeletonText,
             {
-              width: '30%',
+              width: '70%',
+              backgroundColor: theme.values.isDark ? '#333333' : '#e0e0e0',
+            },
+          ]}
+        />
+        <View
+          style={[
+            styles.skeletonText,
+            {
+              width: '40%',
               backgroundColor: theme.values.isDark ? '#333333' : '#e0e0e0',
             },
           ]}
@@ -55,29 +73,29 @@ function SkeletonPlaceCard() {
 }
 
 const styles = StyleSheet.create({
-  skeletonContainerWeb: {
-    width: 300,
-    marginRight: 20,
-  },
-  skeletonContainerMobile: {
-    width: 200,
-    marginRight: 20,
+  container: {
+    width: '100%',
+    height: 200,
+    marginBottom: 20,
   },
   skeletonImage: {
     width: '100%',
-    height: 150, // matches the smaller height from PlaceCard for mobile
-    borderRadius: brand.borderRadius,
+    height: '100%',
+    borderRadius: 10,
   },
   infoContainer: {
-    marginTop: 10,
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    right: 10,
+    flexDirection: 'column',
     gap: 5,
   },
   skeletonText: {
     height: 10,
-    backgroundColor: '#e0e0e0',
     borderRadius: 4,
     marginTop: 5,
   },
 });
 
-export default SkeletonPlaceCard;
+export { SkeletonHeaderImageMobile, SkeletonHeaderImageWeb };

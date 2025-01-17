@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ScrollView, StyleSheet, View, Platform } from 'react-native';
 import PlacesRow from '../../../components/PlacesRow';
 import { ThemeContext } from '../../../theme/theme';
@@ -9,24 +9,45 @@ import { useFetchTableData } from '../../../hooks/fetchTableData';
 import { getDistance } from 'geolib';
 import Hero from '../../../components/Hero';
 import { Place } from '../../../types/PlacesTypes';
+import { useNightclubsStore } from '../../../stores/useZustandStore';
 
 const HomePage = () => {
-  const { data, error, isLoading } = useFetchTableData<Place>('nightclubs');
+  // Initialize theme context
   const theme = useContext(ThemeContext);
+  // Get the window width
   const windowWidth = useWindowWidth();
+
+  // Fetch nightclubs data
+  const { data, error, isLoading: isFetching } = useFetchTableData<Place>('nightclubs');
+
+  // Set the nightclubs data in the store
+  const { nightclubs, setNightclubs, setLoading, isLoading } = useNightclubsStore();
+
+  // Check if data is available and set the nightclubs data in the store
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setNightclubs(data);
+    }
+  }, [data, setNightclubs]);
+
+  // Check if nightclub data is loading and set it in the store
+  useEffect(() => {
+    setLoading(isFetching);
+  }, [isFetching, setLoading]);
 
   // Central point for Las Vegas Strip
   const lasVegasStripCenter = { latitude: 36.1147, longitude: -115.1728 };
   const radius = 2000; // 3km radius
 
-  // Separate places into "On the Strip" and "Off the Strip"
-  const onTheStrip = data?.filter((place) => {
+  // Filter places into "On the Strip" and "Off the Strip"
+  const onTheStrip = nightclubs?.filter((place) => {
     const { lat, lng } = place.location; // Adjust based on your data structure
     return (
       lat && lng && getDistance({ latitude: lat, longitude: lng }, lasVegasStripCenter) <= radius
     );
   });
-  const offTheStrip = data?.filter((place) => !onTheStrip?.includes(place));
+  const offTheStrip = nightclubs?.filter((place) => !onTheStrip?.includes(place));
+
   return (
     <ScrollView style={[styles.screen, { backgroundColor: theme.values.backgroundColor }]}>
       {/** Hero Section **/}

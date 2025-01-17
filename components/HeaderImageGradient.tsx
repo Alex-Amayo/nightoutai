@@ -10,7 +10,7 @@ import brand from '../brand/brandConfig';
 interface HeaderImageGradientProps {
   name: string;
   imageUrl: string;
-  priceLevel?: number;
+  priceLevel?: number | string;
   distance?: number;
 }
 
@@ -20,15 +20,18 @@ export default function HeaderImageGradient({
   priceLevel,
   distance,
 }: HeaderImageGradientProps) {
-  const priceSymbol = usePriceSymbol(priceLevel);
+  const priceSymbol = usePriceSymbol(typeof priceLevel === 'number' ? priceLevel : 0);
   const windowWidth = useWindowWidth();
 
   // Common tag container used across web and mobile
   const renderTagContainer = () => (
     <View style={styles.tagContainer}>
-      <StyledText color={'#ccc'} fontSize={windowWidth > breakpoints.small ? 'lg' : 'md'}>
+      <StyledText
+        color={'#ccc'}
+        fontSize={windowWidth > breakpoints.small ? 'lg' : 'md'}
+        align="left">
         {distance ? distance.toFixed(2) + ' Miles away |' : null}
-        {priceLevel && priceLevel !== 'N/A' ? ` Price Level: ${priceSymbol}` : null}
+        {priceLevel && priceLevel !== 'N/A' ? `Price Level: ${priceSymbol}` : null}
       </StyledText>
     </View>
   );
@@ -49,7 +52,7 @@ export default function HeaderImageGradient({
 
         {/* Title overlay */}
         <View style={styles.titleOverlay}>
-          <StyledText bold fontSize={30} color="#fff">
+          <StyledText bold fontSize={30} color="#fff" align="left">
             {name}
           </StyledText>
           {/* Tags container reused for mobile */}
@@ -92,7 +95,7 @@ export default function HeaderImageGradient({
 
         <View style={styles.textContainer}>
           {/* Title overlay */}
-          <StyledText color={'#fff'} bold fontSize={50}>
+          <StyledText color={'#fff'} bold fontSize={50} align="left">
             {name}
           </StyledText>
 
@@ -137,12 +140,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     textAlign: 'left',
     bottom: 40,
+    gap: 10,
     paddingHorizontal: '3%',
     width: '100%',
   },
   tagContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    alignItems: 'flex-start',
     gap: 10, // Shared styling for tag container
   },
   imageBackground: {

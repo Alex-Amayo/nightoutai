@@ -6,8 +6,6 @@ import { breakpoints, useWindowWidth } from '../../../hooks/useWindowWidth';
 import PlacePhotos from '../../../components/PlacePhotos';
 import Footer from '../../../components/ui/Footer';
 import HeaderImageGradient from '../../../components/HeaderImageGradient';
-import { useLocationStore } from '../../../stores/useLocationStore';
-import { getDistance } from 'geolib';
 import PlaceActionButtons from '../../../components/PlaceActionButtons';
 import { useFetchPhotosByPlace } from '../../../hooks/fetchPhotosByPlace';
 import { useFetchPlaceById } from '../../../hooks/useFetchPlaceById';
@@ -24,7 +22,6 @@ const PlacesScreen = () => {
 
   const theme = useContext(ThemeContext);
   const windowWidth = useWindowWidth();
-  const { location } = useLocationStore();
 
   const {
     data: photos,
@@ -32,12 +29,10 @@ const PlacesScreen = () => {
     error: photosError,
   } = useFetchPhotosByPlace(place?.google_place_id ?? '');
 
-  // Get distance from place
-  const distance = location ? getDistance(location, { latitude: place?.location.lat ?? 0, longitude: place?.location.lng ?? 0, }) : 0;
-  const milesAway: number = distance * 0.000621371;
-
-  // Get the first photo URL or fallback to a placeholder
-  const firstPhotoUrl = photos?.[0]?.url || 'https://via.placeholder.com/800';
+  // Get the second photo URL (usually better for header) or fallback to a placeholder
+  const headerPhotoURL =
+    photos?.[0]?.url ||
+    'https://xyyfo01l4d.ufs.sh/f/YPschnd1m5QkVmPiAE4SldTaxryP3gAKYZw7n05JjQ9ctqsm';
 
   return (
     <ScrollView style={{ backgroundColor: theme.values.backgroundColor }}>
@@ -45,8 +40,7 @@ const PlacesScreen = () => {
       <HeaderImageGradient
         name={place?.name ?? ''}
         priceLevel={place?.price_level}
-        imageUrl={firstPhotoUrl} // Use the first photo from Supabase
-        distance={milesAway}
+        imageUrl={headerPhotoURL} // Use the first photo from Supabase
       />
 
       {/** Action Buttons for Large Screens **/}
