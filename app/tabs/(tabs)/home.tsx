@@ -9,7 +9,7 @@ import { useFetchTableData } from '../../../hooks/fetchTableData';
 import { getDistance } from 'geolib';
 import Hero from '../../../components/Hero';
 import { Place } from '../../../types/PlacesTypes';
-import { useNightclubsStore } from '../../../stores/useZustandStore';
+import { useNightclubsStore } from '../../../stores/useNightclubStore';
 
 const HomePage = () => {
   // Initialize theme context
