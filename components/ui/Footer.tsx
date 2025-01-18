@@ -44,7 +44,6 @@ const Footer = () => {
 
 const styles = StyleSheet.create({
   footerContainer: {
-    
     paddingHorizontal: '3%',
     alignItems: 'flex-start',
     gap: 10,
