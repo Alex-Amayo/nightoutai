@@ -4,13 +4,15 @@ import { ReviewProps } from '../types/PlacesTypes';
 import Review from '../components/Review';
 import { StyledText } from './ui/StyledText';
 import { breakpoints, useWindowWidth } from '../hooks/useWindowWidth';
+import { useFetchReviewsByPlace } from '../hooks/queries/useFetchReviewsbyPlace';
 
 interface ReviewsListProps {
-  reviews: ReviewProps[];
+  google_place_id: string;
 }
 
-const ReviewsList = ({ reviews }: ReviewsListProps) => {
+const ReviewsList: React.FC<ReviewsListProps> = ({ google_place_id }) => {
   const windowWidth = useWindowWidth();
+  const { data: reviews, isLoading } = useFetchReviewsByPlace(google_place_id);
 
   return (
     <View style={styles.reviewsContainer}>
@@ -20,21 +22,25 @@ const ReviewsList = ({ reviews }: ReviewsListProps) => {
         </StyledText>
       </View>
       <View style={styles.gridContainer}>
-        {reviews.map((item) => (
-          <View
-            key={item.author_url}
-            style={[styles.gridItem, { width: windowWidth > breakpoints.small ? '49%' : '100%' }]}>
-            <Review reviewText={item.text} rating={item.rating} />
-          </View>
-        ))}
+        {reviews
+          ? reviews.map((item) => (
+            <View
+              key={item.author_url}
+              style={[
+                styles.gridItem,
+                { width: windowWidth > breakpoints.small ? '49%' : '100%' },
+              ]}>
+              <Review reviewText={item.text} rating={item.rating} />
+            </View>
+          ))
+          : null}
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  reviewsContainer: {
-  },
+  reviewsContainer: {},
   header: {
     flexDirection: 'row',
     justifyContent: 'flex-start',

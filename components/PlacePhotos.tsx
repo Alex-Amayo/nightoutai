@@ -3,38 +3,37 @@ import { Image, StyleSheet, View } from 'react-native';
 import HorizontalScrollView from './HorizontalScrollView';
 import brand from '../brand/brandConfig';
 import { StyledText } from './ui/StyledText';
-import { useFetchPhotosByPlace } from '../hooks/fetchPhotosByPlace';
+import { PhotoProps } from '../types/PlacesTypes';
 import { ThemeContext } from '../theme/theme';
 
 interface PlacePhotosProps {
-  placeId: string;
+  photos: PhotoProps[] | undefined;
+  isLoading: boolean;
 }
 
-const PlacePhotos = ({ placeId }: PlacePhotosProps) => {
-  const { data: photos, isLoading, error } = useFetchPhotosByPlace(placeId);
+const PlacePhotos = ({ photos, isLoading }: PlacePhotosProps) => {
   const theme = useContext(ThemeContext);
 
   if (isLoading) {
     return (
-      <HorizontalScrollView
-        data={Array(5).fill({ id: 'loading', url: '' })}
-        keyExtractor={(item) => item.id}
-        renderItem={() => (
-          <View
-            style={[
-              styles.skeletonImage,
-              { backgroundColor: theme.values.isDark ? '#333333' : '#e0e0e0' },
-            ]}
-          />
-        )}
-      />
-    );
-  }
-
-  if (!photos || photos.length === 0) {
-    return (
-      <View style={styles.header}>
-        <StyledText fontSize="md">No photos available</StyledText>
+      <View>
+        <View style={styles.header}>
+          <StyledText bold uppercase fontSize={'lg'}>
+            Photos
+          </StyledText>
+        </View>
+        <HorizontalScrollView
+          data={Array.from({ length: 10 }, (_, index) => ({ id: index.toString(), url: '' }))}
+          keyExtractor={(item) => item.id}
+          renderItem={() => (
+            <View
+              style={[
+                styles.skeletonPhoto,
+                { backgroundColor: theme.values.isDark ? '#333333' : '#e0e0e0' },
+              ]}
+            />
+          )}
+        />
       </View>
     );
   }
@@ -65,12 +64,13 @@ const styles = StyleSheet.create({
     marginHorizontal: '3%',
     paddingVertical: 20,
   },
-  skeletonImage: {
-    width: '100%',
-    height: 150, // matches the smaller height from PlaceCard for mobile
+  photo: {
+    width: 300,
+    height: 200,
+    marginRight: 10,
     borderRadius: brand.borderRadius,
   },
-  photo: {
+  skeletonPhoto: {
     width: 300,
     height: 200,
     marginRight: 10,

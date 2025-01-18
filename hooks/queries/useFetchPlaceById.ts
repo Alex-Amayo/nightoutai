@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../supabase/supabase';
-import { Place } from '../types/PlacesTypes';
+import { supabase } from '../../supabase/supabase';
+import { PlaceProps } from '../../types/PlacesTypes';
 
 /**
  * Hook to fetch a single place by its ID from the Supabase database.
@@ -9,7 +9,7 @@ import { Place } from '../types/PlacesTypes';
  * @returns A React Query result object containing the place data, loading state, and error.
  */
 export const useFetchPlaceById = (id: string | number | undefined) => {
-  return useQuery<Place | null, Error>({
+  return useQuery<PlaceProps | null, Error>({
     queryKey: ['place', id], // Ensure `id` is typed correctly as part of the key
     queryFn: async () => {
       if (!id) {

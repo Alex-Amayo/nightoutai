@@ -21,7 +21,6 @@ module.exports = {
       },
     ],
     quotes: ['error', 'single'],
-    indent: ['error', 2],
     semi: ['error', 'always'],
     '@typescript-eslint/no-unused-vars': ['warn'],
     eqeqeq: ['error', 'always'],

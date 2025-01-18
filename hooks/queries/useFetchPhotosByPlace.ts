@@ -1,14 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '../supabase/supabase'; // Adjust the import to your Supabase client setup
-
-// Define the type for the photo object
-interface NightclubPhoto {
-  id: number;
-  google_place_id: string;
-  storage_path: string;
-  url: string;
-  uploaded_at: string | null;
-}
+import { supabase } from '../../supabase/supabase'; // Adjust the import to your Supabase client setup
+import { PhotoProps } from '../../types/PlacesTypes';
 
 /**
  * Fetch all photos for a specific place from the `nightclub_photos` table.
@@ -16,7 +8,7 @@ interface NightclubPhoto {
  * @param placeId - The ID of the place to fetch photos for.
  * @returns An array of NightclubPhoto objects.
  */
-const fetchPhotosByPlace = async (placeId: string): Promise<NightclubPhoto[]> => {
+const fetchPhotosByPlace = async (placeId: string): Promise<PhotoProps[]> => {
   const { data, error } = await supabase
     .from('nightclub_photos')
     .select('*')
@@ -36,7 +28,7 @@ const fetchPhotosByPlace = async (placeId: string): Promise<NightclubPhoto[]> =>
  * @returns A React Query result object.
  */
 export const useFetchPhotosByPlace = (placeId: string) => {
-  return useQuery<NightclubPhoto[], Error>({
+  return useQuery<PhotoProps[], Error>({
     queryKey: ['nightclub_photos', placeId],
     queryFn: () => fetchPhotosByPlace(placeId),
     enabled: !!placeId, // Only fetch if placeId is provided

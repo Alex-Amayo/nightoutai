@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Image, Pressable, StyleSheet } from 'react-native';
-import { Place } from '../types/PlacesTypes';
+import { PlaceProps } from '../types/PlacesTypes';
 import { StyledText } from './ui/StyledText';
 import { getDistance } from 'geolib';
 import brand from '../brand/brandConfig';
@@ -9,10 +9,10 @@ import { useRouter } from 'expo-router';
 import { useWindowWidth, breakpoints } from '../hooks/useWindowWidth';
 import usePriceSymbol from '../hooks/usePriceSymbol';
 import { useLocationStore } from '../stores/useLocationStore';
-import { useFetchPhotosByPlace } from '../hooks/fetchPhotosByPlace';
+import { useFetchPhotosByPlace } from '../hooks/queries/useFetchPhotosByPlace';
 import SkeletonPlaceCard from './SkeletonPlaceCard';
 
-function PlaceCard(place: Place) {
+function PlaceCard(place: PlaceProps) {
   const { data: photos, isLoading } = useFetchPhotosByPlace(place.google_place_id);
 
   const fallbackImage =
@@ -25,7 +25,7 @@ function PlaceCard(place: Place) {
 
   // Initialize router
   const router = useRouter();
-  const goToPlace = (place: Place) => {
+  const goToPlace = (place: PlaceProps) => {
     // Navigate to home/places/[place] with id and place.id
     router.push(`/tabs/${place.name}?id=${place.id}`);
   };

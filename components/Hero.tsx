@@ -4,17 +4,19 @@ import { StyledText } from './ui/StyledText';
 import { breakpoints, useWindowWidth } from '../hooks/useWindowWidth';
 import Button from './ui/Button';
 import { ThemeContext } from '../theme/theme';
-import { Place } from '../types/PlacesTypes';
+import { PlaceProps } from '../types/PlacesTypes';
 import { router } from 'expo-router';
 import brand from '../brand/brandConfig';
 
 const Hero = () => {
   const windowWidth = useWindowWidth();
   const theme = useContext(ThemeContext);
-  const goToChat = (place: Place) => {
+  // Function to navigate to the chat screen
+  const goToChat = () => {
     // Navigate to home/places/[place] with id and place.id
     router.push('/tabs/chat');
   };
+
   return (
     <View
       style={{
@@ -23,7 +25,7 @@ const Hero = () => {
         maxHeight: windowWidth > breakpoints.small ? 500 : 300,
         backgroundColor: 'black',
         marginHorizontal: windowWidth > breakpoints.small ? '3%' : 0,
-        marginTop: windowWidth > breakpoints.small ? 20 : 0,
+        marginTop: windowWidth > breakpoints.small ? 40 : 0,
         borderRadius: windowWidth > breakpoints.small ? brand.borderRadius : 0,
       }}>
       {/* Image Background */}
@@ -72,7 +74,9 @@ const Hero = () => {
             Whether you're looking for the best deals, exclusive events, or insider tips in Las
             Vegas, Jeff has you covered.
           </StyledText>
-          <Button title="Chat with Jeff – Your AI Nightlife Guide" onPress={goToChat} />
+          <View style={{ marginBottom: 20 }}>
+            <Button title="Chat with Jeff – Your AI Nightlife Guide" onPress={goToChat} />
+          </View>
         </View>
       </View>
     </View>

@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { fetchNearbyPlaces } from '../api/queries/fetchNearbyPlaces';
-import { Place } from '../types/PlacesTypes';
+import { PlaceProps } from '../../types/PlacesTypes';
 
 /**
  * Custom hook that uses Google Places API to fetch nearby places based on location and keyword.
@@ -25,8 +25,8 @@ export const useFetchNearbyPlaces = (
   radius: number,
   type: string,
   keyword: string,
-): UseQueryResult<Place[], Error> => {
-  return useQuery<Place[]>({
+): UseQueryResult<PlaceProps[], Error> => {
+  return useQuery<PlaceProps[]>({
     queryKey: ['nearby-places', lat, lng, radius, type, keyword],
     queryFn: () => fetchNearbyPlaces({ lat, lng, radius, type, keyword }),
     staleTime: 1000 * 60 * 60, // 1 hour stale time

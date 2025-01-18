@@ -8,7 +8,7 @@ import SkeletonPlaceCard from './SkeletonPlaceCard';
 
 function PlacesRow({ category, places, loading, error }: CategoryRowProps) {
   return (
-    <View style={styles.row}>
+    <View>
       <View style={styles.header}>
         <StyledText bold uppercase fontSize={'lg'}>
           {category}
@@ -37,9 +37,6 @@ function PlacesRow({ category, places, loading, error }: CategoryRowProps) {
 }
 
 const styles = StyleSheet.create({
-  row: {
-    marginBottom: 20,
-  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',

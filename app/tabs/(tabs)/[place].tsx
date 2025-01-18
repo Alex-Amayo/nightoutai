@@ -7,14 +7,15 @@ import PlacePhotos from '../../../components/PlacePhotos';
 import Footer from '../../../components/ui/Footer';
 import HeaderImageGradient from '../../../components/HeaderImageGradient';
 import PlaceActionButtons from '../../../components/PlaceActionButtons';
-import { useFetchPhotosByPlace } from '../../../hooks/fetchPhotosByPlace';
-import { useFetchPlaceById } from '../../../hooks/useFetchPlaceById';
+import { useFetchPhotosByPlace } from '../../../hooks/queries/useFetchPhotosByPlace';
+import { useFetchPlaceById } from '../../../hooks/queries/useFetchPlaceById';
+import ReviewsList from '../../../components/ReviewsList';
 
 const PlacesScreen = () => {
   // Retrieve raw query parameters
   const { id: rawId } = useLocalSearchParams();
 
-  // Parse rawId and rawPlaceId
+  // Parse rawId and rawPlaceId from the query parameters
   const id = Array.isArray(rawId) ? rawId[0] : rawId;
 
   // Fetch Place by ID from the "places" table
@@ -23,11 +24,10 @@ const PlacesScreen = () => {
   const theme = useContext(ThemeContext);
   const windowWidth = useWindowWidth();
 
-  const {
-    data: photos,
-    isLoading: isPhotosLoading,
-    error: photosError,
-  } = useFetchPhotosByPlace(place?.google_place_id ?? '');
+  // Fetch photos by place ID from the "photos" table
+  const { data: photos, isLoading: isLoadingPhotos } = useFetchPhotosByPlace(
+    place?.google_place_id ?? '',
+  );
 
   // Get the second photo URL (usually better for header) or fallback to a placeholder
   const headerPhotoURL =
@@ -50,8 +50,11 @@ const PlacesScreen = () => {
 
       <View style={styles.placeContentContainer}>
         {/** Photos **/}
-        <PlacePhotos placeId={place?.google_place_id ?? ''} />
+        <PlacePhotos photos={photos} isLoading={isLoadingPhotos} />
       </View>
+
+      {/** Reviews **/}
+      <ReviewsList google_place_id={place?.google_place_id ?? ''} />
 
       {/** Action Buttons for Small Screens **/}
       {windowWidth < breakpoints.large ? (

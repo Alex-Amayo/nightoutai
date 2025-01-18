@@ -5,10 +5,10 @@ import { ThemeContext } from '../../../theme/theme';
 import { StyledText } from '../../../components/ui/StyledText';
 import { breakpoints, useWindowWidth } from '../../../hooks/useWindowWidth';
 import Footer from '../../../components/ui/Footer';
-import { useFetchTableData } from '../../../hooks/fetchTableData';
+import { useFetchTableData } from '../../../hooks/queries/useFetchTableData';
 import { getDistance } from 'geolib';
 import Hero from '../../../components/Hero';
-import { Place } from '../../../types/PlacesTypes';
+import { PlaceProps } from '../../../types/PlacesTypes';
 import { useNightclubsStore } from '../../../stores/useNightclubStore';
 
 const HomePage = () => {
@@ -18,7 +18,7 @@ const HomePage = () => {
   const windowWidth = useWindowWidth();
 
   // Fetch nightclubs data
-  const { data, error, isLoading: isFetching } = useFetchTableData<Place>('nightclubs');
+  const { data, error, isLoading: isFetching } = useFetchTableData<PlaceProps>('nightclubs');
 
   // Set the nightclubs data in the store
   const { nightclubs, setNightclubs, setLoading, isLoading } = useNightclubsStore();
@@ -56,7 +56,7 @@ const HomePage = () => {
       {/** Section - Title, description and Sorting Selection **/}
       <View style={styles.sectionHeader}>
         {/** Section Title and description**/}
-        <StyledText fontSize={windowWidth > breakpoints.small ? 50 : 25} bold>
+        <StyledText fontSize={windowWidth > breakpoints.small ? 30 : 25} bold>
           Find Nightclubs in Las Vegas
         </StyledText>
       </View>
@@ -92,14 +92,14 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flex: 1,
     paddingHorizontal: '3%',
-    marginVertical: 40,
+    marginTop: 40,
+    marginBottom: 20,
   },
   sectionHeaderTextContainer: {
     gap: 5,
   },
   sectionContentContainer: {
-    paddingTop: 0,
-    zIndex: -1,
+    marginBottom: 10,
   },
 });
 

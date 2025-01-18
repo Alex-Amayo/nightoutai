@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { fetchTableData } from '../api/queries/fetchTableData';
+import { fetchTableData } from '../../api/queries/fetchTableData';
 
 /**
  * React Query hook to fetch data from a Supabase table.

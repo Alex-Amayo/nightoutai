@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import { Place } from '../types/PlacesTypes';
+import { PlaceProps } from '../types/PlacesTypes';
 
 interface NightclubsStore {
-  nightclubs: Place[];
-  setNightclubs: (nightclubs: Place[]) => void;
+  nightclubs: PlaceProps[];
+  setNightclubs: (nightclubs: PlaceProps[]) => void;
   isLoading: boolean;
   setLoading: (isLoading: boolean) => void;
 }
