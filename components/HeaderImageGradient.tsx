@@ -37,11 +37,9 @@ export default function HeaderImageGradient({
   );
 
   const renderMobileLayout = () => (
-    <View style={{ ...styles.container, height: 200 }}>
-      <View style={styles.imageContainer}>
-        {/* Background image */}
-        <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
-
+    <View style={{ ...styles.container, height: 200, width: '100%' }}>
+      {/* Background image */}
+      <ImageBackground source={{ uri: imageUrl }} style={styles.image} resizeMode="cover">
         {/* Gradient overlay */}
         <LinearGradient
           colors={['transparent', 'black']}
@@ -58,7 +56,7 @@ export default function HeaderImageGradient({
           {/* Tags container reused for mobile */}
           {renderTagContainer()}
         </View>
-      </View>
+      </ImageBackground>
     </View>
   );
 

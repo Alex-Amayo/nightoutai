@@ -24,15 +24,15 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ google_place_id }) => {
       <View style={styles.gridContainer}>
         {reviews
           ? reviews.map((item) => (
-            <View
-              key={item.author_url}
-              style={[
-                styles.gridItem,
-                { width: windowWidth > breakpoints.small ? '49%' : '100%' },
-              ]}>
-              <Review reviewText={item.text} rating={item.rating} />
-            </View>
-          ))
+              <View
+                key={item.id}
+                style={[
+                  styles.gridItem,
+                  { width: windowWidth > breakpoints.small ? '49%' : '100%' },
+                ]}>
+                <Review reviewText={item.text} rating={item.rating} />
+              </View>
+            ))
           : null}
       </View>
     </View>

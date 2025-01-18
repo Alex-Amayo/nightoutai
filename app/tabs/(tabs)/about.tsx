@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, Platform } from 'react-native';
+import { StyleSheet, View, Image, Platform, ScrollView } from 'react-native';
 import { ThemeContext } from '../../../theme/theme';
 import Footer from '../../../components/ui/Footer';
 import { StyledText } from '../../../components/ui/StyledText';
@@ -13,8 +13,8 @@ const AboutPage = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View
-        style={{
+      <ScrollView
+        contentContainerStyle={{
           ...styles.screen,
           // Configure background color with theme
           backgroundColor: theme.values.backgroundColor,
@@ -34,7 +34,7 @@ const AboutPage = () => {
             options.
           </StyledText>
         </View>
-      </View>
+      </ScrollView>
       {Platform.OS === 'web' && <Footer />}
     </View>
   );
@@ -48,6 +48,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: '3%',
+    paddingTop: 100,
+    paddingBottom: 100,
   },
   container: {
     flex: 1,

@@ -7,8 +7,8 @@ import { ThemeContext } from '../theme/theme';
 import Card from './ui/Card';
 
 interface ReviewProps {
-  reviewText: string;
-  rating: number;
+  reviewText?: string;
+  rating?: number;
 }
 
 export default function Review({ reviewText, rating }: ReviewProps) {
@@ -44,7 +44,7 @@ export default function Review({ reviewText, rating }: ReviewProps) {
           <View style={styles.ratingContainer}>
             <View style={styles.iconContainer}>
               <MaterialCommunityIcons
-                name={getEmojiForRating(rating)}
+                name={getEmojiForRating(rating ?? 3)}
                 size={24}
                 color={brand.colors.primary}
                 style={styles.emojiIcon}
