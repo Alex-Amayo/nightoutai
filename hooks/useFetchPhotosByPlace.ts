@@ -4,7 +4,7 @@ import { supabase } from '../supabase/supabase'; // Adjust the import to your Su
 // Define the type for the photo object
 interface NightclubPhoto {
   id: number;
-  place_id: string;
+  google_place_id: string;
   storage_path: string;
   url: string;
   uploaded_at: string | null;
@@ -20,7 +20,7 @@ const fetchPhotosByPlace = async (placeId: string): Promise<NightclubPhoto[]> =>
   const { data, error } = await supabase
     .from('nightclub_photos')
     .select('*')
-    .eq('place_id', placeId);
+    .eq('google_place_id', placeId);
 
   if (error) {
     throw new Error(error.message);
