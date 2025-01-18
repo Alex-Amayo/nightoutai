@@ -24,7 +24,7 @@ const Hero = () => {
         justifyContent: 'center',
         maxHeight: windowWidth > breakpoints.small ? 500 : 300,
         backgroundColor: 'black',
-        marginHorizontal: windowWidth > breakpoints.small ? '3%' : 0,
+        marginHorizontal: windowWidth > breakpoints.small ? '5%' : 0,
         marginTop: windowWidth > breakpoints.small ? 40 : 0,
         borderRadius: windowWidth > breakpoints.small ? brand.borderRadius : 0,
       }}>

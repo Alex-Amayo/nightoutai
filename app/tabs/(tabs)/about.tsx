@@ -15,7 +15,7 @@ const AboutPage = () => {
     <View style={{ flex: 1 }}>
       <ScrollView
         contentContainerStyle={{
-          ...styles.scrollview,
+          ...styles.scrollView,
           // Configure background color with theme
           backgroundColor: theme.values.backgroundColor,
         }}>
@@ -40,7 +40,7 @@ const AboutPage = () => {
 export default AboutPage;
 
 const styles = StyleSheet.create({
-  scrollview: {
+  scrollView: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,

@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     flex: 1,
-    paddingHorizontal: '3%',
+    paddingHorizontal: '5%',
     marginTop: 40,
     marginBottom: 20,
   },

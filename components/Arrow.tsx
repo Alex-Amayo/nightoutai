@@ -29,9 +29,11 @@ const Arrow = ({ direction, onPress, hidden = false }: ArrowProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '3%',
+    width: '5%',
     paddingHorizontal: 10,
     paddingVertical: 10,
+    justifyContent: 'center',
+    height: '100%',
   },
 });
 

@@ -19,8 +19,8 @@ function HorizontalScrollView<T>({ data, renderItem, keyExtractor }: HorizontalS
     if (flatListRef.current) {
       const newOffset =
         direction === 'left'
-          ? Math.max(0, scrollOffset - 310 * 5) // Move left by 5 items
-          : scrollOffset + 310 * 5; // Move right by 5 items
+          ? Math.max(0, scrollOffset - 310 * 4) // Move left by 5 items
+          : scrollOffset + 310 * 4; // Move right by 5 items
       flatListRef.current.scrollToOffset({
         offset: newOffset,
         animated: true,
