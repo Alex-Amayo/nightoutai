@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Linking, Pressable, StyleSheet, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, View, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { breakpoints, useWindowWidth } from '../hooks/useWindowWidth';
 import { ThemeContext } from '../theme/theme';
@@ -8,19 +8,28 @@ import { StyledText } from './ui/StyledText';
 import { MaterialIcons } from '@expo/vector-icons';
 
 interface PlaceActionButtonsProps {
-  formattedAddress: string;
   website?: string;
   url?: string;
+  location: { latitude: number; longitude: number } | undefined;
 }
 
-const PlaceActionButtons: React.FC<PlaceActionButtonsProps> = ({
-  formattedAddress,
-  website,
-  url,
-}) => {
+const PlaceActionButtons: React.FC<PlaceActionButtonsProps> = ({ website, url, location }) => {
   const router = useRouter();
   const windowWidth = useWindowWidth();
   const theme = useContext(ThemeContext);
+
+  const openMaps = (latitude: number, longitude: number) => {
+    const url = Platform.select({
+      ios: `maps:0,0?q=${latitude},${longitude}`,
+      android: `geo:0,0?q=${latitude},${longitude}`,
+      default: `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`,
+    });
+    Linking.openURL(url);
+  };
+
+  if (!location) {
+    return null;
+  }
 
   return (
     <View
@@ -83,7 +92,7 @@ const PlaceActionButtons: React.FC<PlaceActionButtonsProps> = ({
           <Button
             title={'Directions'}
             icon="directions"
-            onPress={() => url && Linking.openURL(url)}
+            onPress={() => openMaps(location.latitude, location.longitude)}
           />
         </View>
       </View>

@@ -45,7 +45,9 @@ const PlacesScreen = () => {
 
       {/** Action Buttons for Large Screens **/}
       {windowWidth >= breakpoints.large ? (
-        <PlaceActionButtons formattedAddress={place?.address ?? ''} />
+        <PlaceActionButtons
+          location={{ latitude: place?.location?.lat, longitude: place?.location?.lng }}
+        />
       ) : null}
 
       <View style={styles.placeContentContainer}>
@@ -58,7 +60,9 @@ const PlacesScreen = () => {
 
       {/** Action Buttons for Small Screens **/}
       {windowWidth < breakpoints.large ? (
-        <PlaceActionButtons formattedAddress={place?.address ?? ''} />
+        <PlaceActionButtons
+          location={{ latitude: place?.location?.lat, longitude: place?.location?.lng }}
+        />
       ) : null}
 
       {Platform.OS === 'web' && <Footer />}
