@@ -14,13 +14,11 @@ function HorizontalScrollView<T>({ data, renderItem, keyExtractor }: HorizontalS
   const [scrollOffset, setScrollOffset] = useState(0);
   const [contentWidth, setContentWidth] = useState(0); // Track content width
 
-  // Scroll list by 5 items at a time
   const scrollList = (direction: 'left' | 'right') => {
     if (flatListRef.current) {
       const newOffset =
-        direction === 'left'
-          ? Math.max(0, scrollOffset - 310 * 4) // Move left by 5 items
-          : scrollOffset + 310 * 4; // Move right by 5 items
+        // Move right by width + 10(margin) * 3 items
+        direction === 'left' ? Math.max(0, scrollOffset - 310 * 3) : scrollOffset + 310 * 3;
       flatListRef.current.scrollToOffset({
         offset: newOffset,
         animated: true,
