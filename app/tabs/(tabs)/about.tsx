@@ -26,7 +26,6 @@ const AboutPage = () => {
           </StyledText>
           <StyledText align={'center'}>
             Eat Out is a food finder app that helps users discover nearby restaurants.{'\n'}
-            {'\n'}
             It features an AI chat (currently in development), where the AI is fully aware of
             restaurant options around you and helps explore personalized recommendations.{'\n'}
           </StyledText>
@@ -53,5 +52,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    maxWidth: 800,
   },
 });

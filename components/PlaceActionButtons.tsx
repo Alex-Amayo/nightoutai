@@ -93,13 +93,13 @@ const PlaceActionButtons: React.FC<PlaceActionButtonsProps> = ({
 
 const styles = StyleSheet.create({
   actionButtonsContainer: {
-    marginHorizontal: '3%',
+    marginHorizontal: '5%',
     alignItems: 'center',
     paddingVertical: 20,
     gap: 10,
   },
   actionButtonTextContainer: {
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     paddingHorizontal: 10,
   },
   buttonsContainer: {
@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
+    justifyContent: 'flex-start',
+    paddingVertical: 20,
   },
 });
 

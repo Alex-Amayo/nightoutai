@@ -16,12 +16,20 @@ const ReviewsList: React.FC<ReviewsListProps> = ({ google_place_id }) => {
 
   return (
     <View style={styles.reviewsContainer}>
-      <View style={styles.header}>
+      <View
+        style={[
+          styles.header,
+          { marginHorizontal: windowWidth > breakpoints.large ? '5%' : '3%' },
+        ]}>
         <StyledText bold uppercase fontSize={'lg'} align={'center'}>
           Reviews
         </StyledText>
       </View>
-      <View style={styles.gridContainer}>
+      <View
+        style={[
+          styles.gridContainer,
+          { marginHorizontal: windowWidth > breakpoints.large ? '5%' : '3%' },
+        ]}>
         {reviews
           ? reviews.map((item) => (
               <View
@@ -45,14 +53,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginHorizontal: '3%',
     paddingVertical: 20,
   },
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginHorizontal: '3%',
   },
   gridItem: {
     width: '50%',

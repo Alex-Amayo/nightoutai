@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: '3%',
+    marginHorizontal: '5%',
     paddingVertical: 20,
   },
   photo: {

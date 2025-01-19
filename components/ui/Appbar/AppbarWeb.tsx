@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     height: 80,
-    paddingHorizontal: 20,
+    paddingHorizontal: '5%',
   },
   appbarWebSmall: {
     flexDirection: 'row',

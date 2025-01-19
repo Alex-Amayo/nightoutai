@@ -10,7 +10,7 @@ function PlacesRow({ category, places, loading, error }: CategoryRowProps) {
   return (
     <View>
       <View style={styles.header}>
-        <StyledText bold uppercase fontSize={'lg'}>
+        <StyledText uppercase bold fontSize={20}>
           {category}
         </StyledText>
       </View>

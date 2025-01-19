@@ -66,7 +66,7 @@ export default function HeaderImageGradient({
         styles.container,
         {
           height: 300,
-          marginHorizontal: '3%',
+          marginHorizontal: '5%',
           marginTop: 20,
           backgroundColor: 'red',
           borderRadius: brand.borderRadius,

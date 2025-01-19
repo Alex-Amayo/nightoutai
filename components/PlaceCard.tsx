@@ -49,7 +49,7 @@ function PlaceCard(place: PlaceProps) {
         resizeMode={'cover'}
       />
       <View style={styles.infoContainer}>
-        <StyledText fontSize="md" numberOfLines={1} align="left">
+        <StyledText fontSize="md" numberOfLines={1} bold align="left">
           {place.name}
         </StyledText>
         <StyledText fontSize="sm" color={theme.values.color} numberOfLines={1} align="left">

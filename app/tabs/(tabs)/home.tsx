@@ -56,7 +56,7 @@ const HomePage = () => {
       {/** Section - Title, description and Sorting Selection **/}
       <View style={styles.sectionHeader}>
         {/** Section Title and description**/}
-        <StyledText fontSize={windowWidth > breakpoints.small ? 30 : 25} bold>
+        <StyledText fontSize={windowWidth > breakpoints.small ? 40 : 25} bold>
           Find Nightclubs in Las Vegas
         </StyledText>
       </View>
